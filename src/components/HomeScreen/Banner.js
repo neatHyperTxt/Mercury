@@ -1,19 +1,32 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import classes from './Banner.module.css';
+import axios from '../../axios';
+import requests from '../../request';
 function Banner() {
+    const [movie,setMovie] = useState([]);
     const truncate = (string,n)=>{
         return string?.length>n?string.substr(0,n-1)+'...':string;
     }
+    useEffect(()=>{
+       const fetchData =  async ()=>{
+         const request = await axios.get(requests.fetchNetflixOriginals);
+         setMovie(
+            request.data.results[Math.floor(Math.random()*request.data.results.length-1)]
+         );
+         return request;
+       }
+       fetchData();
+    },[]);
   return (
     <header className={classes.banner} style={{
-        backgroundImage:`url("https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmV0ZmxpeHxlbnwwfHwwfHw%3D&w=1000&q=80")`,
+        // backgroundImage:`url("https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmV0ZmxpeHxlbnwwfHwwfHw%3D&w=1000&q=80")`,
         backgroundSize:"cover",
         backgroundPosition:"center center",
-        // backgroundImage:`url("https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg")`
+        backgroundImage:`url("https://image.tmdb.org/t/p/original/${movie?.poster_path}")`
     }
     }>
         <div className={classes.bannerContent}>
-            <h1 className={classes.title}>Movie Name</h1>
+            <h1 className={classes.title}>{movie?.title || movie?.name || movie?.original}</h1>
             <div className={classes.buttons}>
                 <button className={classes.button}>Play</button>
                 <button className={classes.button}>My List</button>
