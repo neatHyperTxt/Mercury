@@ -29,6 +29,7 @@
     object-fit: contain;
     padding-left: 20px;
     cursor: pointer;
+    margin-top: 1rem;
 }
 .avatar
 {

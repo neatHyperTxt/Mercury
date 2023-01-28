@@ -9,7 +9,7 @@ function Banner() {
     }
     useEffect(()=>{
        const fetchData =  async ()=>{
-         const request = await axios.get(requests.fetchNetflixOriginals);
+         const request = await axios.get(requests.fetchTopRated);
          setMovie(
             request.data.results[Math.floor(Math.random()*request.data.results.length-1)]
          );
@@ -21,8 +21,11 @@ function Banner() {
     <header className={classes.banner} style={{
         // backgroundImage:`url("https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmV0ZmxpeHxlbnwwfHwwfHw%3D&w=1000&q=80")`,
         backgroundSize:"cover",
+        height:"100%",
         backgroundPosition:"center center",
-        backgroundImage:`url("https://image.tmdb.org/t/p/original/${movie?.poster_path}")`
+        backgroundImage:`url("https://image.tmdb.org/t/p/original/${movie?.poster_path}")`,
+        backgroundRepeat:"no-repeat",
+        objectFit:"cover"
     }
     }>
         <div className={classes.bannerContent}>
@@ -31,7 +34,7 @@ function Banner() {
                 <button className={classes.button}>Play</button>
                 <button className={classes.button}>My List</button>
             </div>
-            <h1 className={classes.description}>{truncate("This is a test description. ",100)}</h1>
+            <h1 className={classes.description}>{truncate(movie?.overview,100)}</h1>
         </div>
         <div className={classes.fadeBottom}/>
     </header>
